@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GreenCare · 多國語言隨身電子病歷</title>
+<style>
+:root{
+  --bg:#eef3ee; --card:#ffffff; --deep:#46685b; --mid:#78988a;
+  --sage:#a8bdb1; --mint:#dce9e1; --cream:#f7f7f1; --text:#30453d;
+  --muted:#718078; --line:#d8e2dc; --danger:#9c625c;
+  --shadow:0 14px 38px rgba(55,82,70,.10);
+}
+*{box-sizing:border-box}
+body{
+  margin:0; font-family:Inter,"Noto Sans TC","Noto Sans",system-ui,sans-serif;
+  color:var(--text); background:
+  radial-gradient(circle at 8% 5%,#dce9e1 0 13%,transparent 28%),
+  radial-gradient(circle at 92% 12%,#e9eee5 0 12%,transparent 26%),var(--bg);
+}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+.app{max-width:1180px;margin:auto;padding:28px 18px 48px}
+.topbar{
+  display:flex;align-items:center;justify-content:space-between;gap:18px;
+  padding:20px 22px;background:rgba(255,255,255,.84);backdrop-filter:blur(12px);
+  border:1px solid rgba(255,255,255,.9);border-radius:24px;box-shadow:var(--shadow);
+  position:sticky;top:14px;z-index:20
+}
+.brand{display:flex;align-items:center;gap:13px}
+.logo{width:46px;height:46px;border-radius:15px;background:var(--deep);color:white;
+  display:grid;place-items:center;font-size:23px;box-shadow:0 8px 18px rgba(70,104,91,.25)}
+.brand h1{font-size:20px;margin:0 0 3px}
+.brand p{margin:0;color:var(--muted);font-size:12px}
+.controls{display:flex;gap:9px;align-items:center;flex-wrap:wrap}
+select,.btn{
+  border:1px solid var(--line);background:white;color:var(--text);border-radius:12px;
+  padding:10px 13px;outline:none
+}
+.btn.primary{background:var(--deep);color:#fff;border-color:var(--deep)}
+.btn.soft{background:var(--mint)}
+.btn.danger{color:var(--danger)}
+.hero{
+  margin:24px 0 18px;padding:30px;border-radius:28px;
+  background:linear-gradient(135deg,#f9fbf8,#dce9e1);box-shadow:var(--shadow);
+  display:grid;grid-template-columns:1.4fr .6fr;gap:20px;overflow:hidden;position:relative
+}
+.hero:after{content:"✚";position:absolute;right:35px;bottom:-35px;font-size:180px;color:rgba(70,104,91,.06)}
+.hero h2{font-size:34px;margin:0 0 10px;letter-spacing:-1px}
+.hero p{max-width:650px;color:var(--muted);line-height:1.7;margin:0}
+.hero-card{align-self:center;background:rgba(255,255,255,.7);padding:18px;border-radius:20px;border:1px solid #fff}
+.hero-card strong{display:block;font-size:12px;color:var(--mid);margin-bottom:7px}
+.hero-card span{font-size:14px}
+.layout{display:grid;grid-template-columns:245px 1fr;gap:18px}
+.nav{
+  background:rgba(255,255,255,.78);border:1px solid #fff;border-radius:22px;padding:12px;
+  box-shadow:var(--shadow);height:max-content;position:sticky;top:108px
+}
+.nav button{
+  width:100%;border:0;background:transparent;text-align:left;padding:13px 14px;border-radius:13px;
+  color:var(--muted);margin:2px 0
+}
+.nav button:hover,.nav button.active{background:var(--mint);color:var(--deep);font-weight:700}
+.content{min-width:0}
+.section{display:none}
+.section.active{display:block;animation:fade .25s ease}
+@keyframes fade{from{opacity:.3;transform:translateY(4px)}to{opacity:1;transform:none}}
+.section-head{display:flex;justify-content:space-between;align-items:end;margin:2px 2px 13px}
+.section-head h3{font-size:24px;margin:0}
+.section-head p{margin:4px 0 0;color:var(--muted);font-size:13px}
+.card{
+  background:rgba(255,255,255,.9);border:1px solid #fff;border-radius:22px;
+  padding:20px;margin-bottom:15px;box-shadow:var(--shadow)
+}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.grid.three{grid-template-columns:repeat(3,minmax(0,1fr))}
+.field label{display:block;font-size:12px;font-weight:700;color:var(--muted);margin:0 0 7px}
+input,textarea{
+  width:100%;border:1px solid var(--line);background:#fbfcfa;border-radius:12px;
+  padding:11px 12px;color:var(--text);outline:none
+}
+input:focus,textarea:focus,select:focus{border-color:var(--sage);box-shadow:0 0 0 3px rgba(168,189,177,.22)}
+textarea{min-height:110px;resize:vertical;line-height:1.6}
+.full{grid-column:1/-1}
+.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:15px}
+.item-list{display:grid;gap:10px}
+.item{
+  border:1px solid var(--line);border-radius:15px;padding:14px;background:#fbfcfa;
+  display:flex;justify-content:space-between;gap:15px;align-items:flex-start
+}
+.item b{display:block;margin-bottom:4px}
+.item small{color:var(--muted);line-height:1.5}
+.remove{border:0;background:#f2e5e3;color:var(--danger);border-radius:9px;padding:7px 9px}
+.badge{display:inline-block;background:var(--mint);color:var(--deep);padding:5px 9px;border-radius:99px;font-size:11px;font-weight:700}
+.alert{
+  padding:12px 14px;border-radius:14px;background:#f5f2e7;color:#746b4f;font-size:12px;line-height:1.6;margin-bottom:15px
+}
+footer{text-align:center;color:var(--muted);font-size:11px;margin-top:24px;line-height:1.7}
+@media(max-width:820px){
+  .topbar{position:relative;top:0;align-items:flex-start;flex-direction:column}
+  .layout{grid-template-columns:1fr}
+  .nav{position:relative;top:0;display:flex;overflow:auto;gap:5px}
+  .nav button{min-width:max-content;width:auto}
+  .hero{grid-template-columns:1fr}.hero h2{font-size:28px}
+}
+@media(max-width:600px){.grid,.grid.three{grid-template-columns:1fr}.app{padding:12px 10px 30px}}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="topbar">
+    <div class="brand">
+      <div class="logo">✚</div>
+      <div><h1>GreenCare</h1><p data-i18n="subtitle">多國語言隨身電子病歷</p></div>
+    </div>
+    <div class="controls">
+      <select id="language" aria-label="Language">
+        <option value="zh">繁體中文</option><option value="en">English</option>
+        <option value="ja">日本語</option><option value="ko">한국어</option>
+        <option value="vi">Tiếng Việt</option><option value="es">Español</option>
+        <option value="fr">Français</option><option value="de">Deutsch</option>
+      </select>
+      <button class="btn soft" id="saveBtn" data-i18n="save">儲存</button>
+      <button class="btn" id="printBtn" data-i18n="print">列印</button>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div>
+      <h2 data-i18n="heroTitle">我的健康，一頁掌握。</h2>
+      <p data-i18n="heroText">簡潔、柔和、適合隨身攜帶的個人健康資料介面。可切換多國語言，方便在旅行、就醫或需要向醫療人員說明時快速查看。</p>
+    </div>
+    <div class="hero-card"><strong data-i18n="lastSaved">最後儲存</strong><span id="lastSaved">尚未儲存</span></div>
+  </section>
+
+  <div class="layout">
+    <aside class="nav">
+      <button class="active" data-target="personal">👤 <span data-i18n="navPersonal">個人資料</span></button>
+      <button data-target="history">🩺 <span data-i18n="navHistory">疾病史</span></button>
+      <button data-target="family">🌿 <span data-i18n="navFamily">家族史</span></button>
+      <button data-target="surgery">✦ <span data-i18n="navSurgery">手術／住院史</span></button>
+      <button data-target="meds">💊 <span data-i18n="navMeds">用藥史</span></button>
+      <button data-target="allergy">⚠ <span data-i18n="navAllergy">過敏與免疫</span></button>
+      <button data-target="vaccine">◉ <span data-i18n="navVaccine">疫苗紀錄</span></button>
+      <button data-target="emergency">☎ <span data-i18n="navEmergency">緊急資訊</span></button>
+      <button data-target="notes">📝 <span data-i18n="navNotes">備註</span></button>
+    </aside>
+
+    <main class="content">
+      <section id="personal" class="section active">
+        <div class="section-head"><div><h3 data-i18n="personalTitle">個人資料</h3><p data-i18n="personalDesc">基本身分與聯絡資訊</p></div></div>
+        <div class="card">
+          <div class="grid">
+            <div class="field"><label data-i18n="name">姓名</label><input id="name" data-key="name" placeholder="例如：王小明"></div>
+            <div class="field"><label data-i18n="dob">出生日期</label><input id="dob" data-key="dob" type="date"></div>
+            <div class="field"><label data-i18n="sex">生理性別</label><input id="sex" data-key="sex" placeholder="依個人需求填寫"></div>
+            <div class="field"><label data-i18n="blood">血型</label><input id="blood" data-key="blood" placeholder="例如：O+"></div>
+            <div class="field"><label data-i18n="nationality">國籍／地區</label><input id="nationality" data-key="nationality"></div>
+            <div class="field"><label data-i18n="phone">聯絡電話</label><input id="phone" data-key="phone"></div>
+            <div class="field"><label data-i18n="email">Email</label><input id="email" data-key="email" type="email"></div>
+            <div class="field"><label data-i18n="doctor">主要醫師／醫療院所</label><input id="doctor" data-key="doctor"></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="history" class="section">
+        <div class="section-head"><div><h3 data-i18n="historyTitle">疾病史</h3><p data-i18n="historyDesc">曾診斷、目前狀況與重要病史</p></div><button class="btn primary" onclick="addRecord('history')">＋ <span data-i18n="add">新增</span></button></div>
+        <div class="card">
+          <div class="grid">
+            <div class="field"><label data-i18n="condition">疾病／診斷名稱</label><input id="hName"></div>
+            <div class="field"><label data-i18n="date">診斷／發生時間</label><input id="hDate" type="date"></div>
+            <div class="field full"><label data-i18n="details">補充說明</label><textarea id="hNote"></textarea></div>
+          </div>
+        </div>
+        <div id="historyList" class="item-list"></div>
+      </section>
+
+      <section id="family" class="section">
+        <div class="section-head"><div><h3 data-i18n="familyTitle">家族史</h3><p data-i18n="familyDesc">記錄直系親屬的重要疾病資訊</p></div><button class="btn primary" onclick="addRecord('family')">＋ <span data-i18n="add">新增</span></button></div>
+        <div class="card">
+          <div class="grid">
+            <div class="field"><label data-i18n="relative">親屬</label><input id="fRelative" placeholder="例如：父親／祖母"></div>
+            <div class="field"><label data-i18n="condition">疾病／診斷名稱</label><input id="fName"></div>
+            <div class="field full"><label data-i18n="details">補充說明</label><textarea id="fNote"></textarea></div>
+          </div>
+        </div>
+        <div id="familyList" class="item-list"></div>
+      </section>
+
+      <section id="surgery" class="section">
+        <div class="section-head"><div><h3 data-i18n="surgeryTitle">手術／住院史</h3><p data-i18n="surgeryDesc">手術、住院與重大醫療處置</p></div><button class="btn primary" onclick="addRecord('surgery')">＋ <span data-i18n="add">新增</span></button></div>
+        <div class="card"><div class="grid">
+          <div class="field"><label data-i18n="procedure">手術／處置</label><input id="sName"></div>
+          <div class="field"><label data-i18n="date">日期</label><input id="sDate" type="date"></div>
+          <div class="field"><label data-i18n="hospital">醫療院所</label><input id="sHospital"></div>
+          <div class="field"><label data-i18n="details">補充說明</label><input id="sNote"></div>
+        </div></div>
+        <div id="surgeryList" class="item-list"></div>
+      </section>
+
+      <section id="meds" class="section">
+        <div class="section-head"><div><h3 data-i18n="medsTitle">用藥史</h3><p data-i18n="medsDesc">目前或曾使用的重要藥物</p></div><button class="btn primary" onclick="addRecord('meds')">＋ <span data-i18n="add">新增</span></button></div>
+        <div class="card"><div class="grid">
+          <div class="field"><label data-i18n="medName">藥物名稱</label><input id="mName"></div>
+          <div class="field"><label data-i18n="dose">劑量／頻率</label><input id="mDose"></div>
+          <div class="field"><label data-i18n="reason">用途</label><input id="mReason"></div>
+          <div class="field"><label data-i18n="details">補充說明</label><input id="mNote"></div>
+        </div></div>
+        <div id="medsList" class="item-list"></div>
+      </section>
+
+      <section id="allergy" class="section">
+        <div class="section-head"><div><h3 data-i18n="allergyTitle">過敏與免疫</h3><p data-i18n="allergyDesc">藥物、食物、環境過敏與其他重要反應</p></div></div>
+        <div class="card"><div class="grid">
+          <div class="field"><label data-i18n="drugAllergy">藥物過敏</label><input data-key="drugAllergy" placeholder="若無請填「無」"></div>
+          <div class="field"><label data-i18n="foodAllergy">食物過敏</label><input data-key="foodAllergy"></div>
+          <div class="field"><label data-i18n="otherAllergy">其他過敏／反應</label><input data-key="otherAllergy"></div>
+          <div class="field"><label data-i18n="immunity">其他重要免疫資訊</label><input data-key="immunity"></div>
+        </div></div>
+      </section>
+
+      <section id="vaccine" class="section">
+        <div class="section-head"><div><h3 data-i18n="vaccineTitle">疫苗紀錄</h3><p data-i18n="vaccineDesc">可記錄疫苗名稱、日期與備註</p></div><button class="btn primary" onclick="addRecord('vaccine')">＋ <span data-i18n="add">新增</span></button></div>
+        <div class="card"><div class="grid">
+          <div class="field"><label data-i18n="vaccineName">疫苗名稱</label><input id="vName"></div>
+          <div class="field"><label data-i18n="date">日期</label><input id="vDate" type="date"></div>
+          <div class="field full"><label data-i18n="details">補充說明</label><input id="vNote"></div>
+        </div></div>
+        <div id="vaccineList" class="item-list"></div>
+      </section>
+
+      <section id="emergency" class="section">
+        <div class="section-head"><div><h3 data-i18n="emergencyTitle">緊急資訊</h3><p data-i18n="emergencyDesc">在需要快速說明時最重要的資訊</p></div></div>
+        <div class="alert" data-i18n="emergencyAlert">建議只填寫必要資訊；不要在不安全或共用的裝置上保存過多個人敏感資料。</div>
+        <div class="card"><div class="grid">
+          <div class="field"><label data-i18n="contact">緊急聯絡人</label><input data-key="contact"></div>
+          <div class="field"><label data-i18n="contactPhone">聯絡電話</label><input data-key="contactPhone"></div>
+          <div class="field"><label data-i18n="languageNeed">溝通語言／特殊溝通需求</label><input data-key="languageNeed"></div>
+          <div class="field"><label data-i18n="important">其他重要提醒</label><input data-key="important"></div>
+        </div></div>
+      </section>
+
+      <section id="notes" class="section">
+        <div class="section-head"><div><h3 data-i18n="notesTitle">備註</h3><p data-i18n="notesDesc">任何希望在就醫時快速查看的資訊</p></div></div>
+        <div class="card"><textarea data-key="notes" id="notesText" placeholder="例如：近期就醫重點、醫師交代事項、旅行時需要注意的醫療資訊……"></textarea>
+          <div class="actions">
+            <button class="btn primary" id="saveBtn2" data-i18n="save">儲存</button>
+            <button class="btn" id="exportBtn" data-i18n="export">匯出資料</button>
+            <button class="btn danger" id="clearBtn" data-i18n="clear">清除本機資料</button>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <footer>
+    <span data-i18n="footer">GreenCare 是學習／展示用途的靜態網頁範例，不是正式醫療紀錄系統，也不能取代醫療人員的專業判斷。</span>
+  </footer>
+</div>
+
+<script>
+const T={
+zh:{subtitle:"多國語言隨身電子病歷",save:"儲存",print:"列印",heroTitle:"我的健康，一頁掌握。",heroText:"簡潔、柔和、適合隨身攜帶的個人健康資料介面。可切換多國語言，方便在旅行、就醫或需要向醫療人員說明時快速查看。",lastSaved:"最後儲存",navPersonal:"個人資料",navHistory:"疾病史",navFamily:"家族史",navSurgery:"手術／住院史",navMeds:"用藥史",navAllergy:"過敏與免疫",navVaccine:"疫苗紀錄",navEmergency:"緊急資訊",navNotes:"備註",personalTitle:"個人資料",personalDesc:"基本身分與聯絡資訊",name:"姓名",dob:"出生日期",sex:"生理性別",blood:"血型",nationality:"國籍／地區",phone:"聯絡電話",email:"Email",doctor:"主要醫師／醫療院所",historyTitle:"疾病史",historyDesc:"曾診斷、目前狀況與重要病史",familyTitle:"家族史",familyDesc:"記錄直系親屬的重要疾病資訊",surgeryTitle:"手術／住院史",surgeryDesc:"手術、住院與重大醫療處置",medsTitle:"用藥史",medsDesc:"目前或曾使用的重要藥物",allergyTitle:"過敏與免疫",allergyDesc:"藥物、食物、環境過敏與其他重要反應",vaccineTitle:"疫苗紀錄",vaccineDesc:"可記錄疫苗名稱、日期與備註",emergencyTitle:"緊急資訊",emergencyDesc:"在需要快速說明時最重要的資訊",notesTitle:"備註",notesDesc:"任何希望在就醫時快速查看的資訊",add:"新增",condition:"疾病／診斷名稱",date:"日期",details:"補充說明",relative:"親屬",procedure:"手術／處置",hospital:"醫療院所",medName:"藥物名稱",dose:"劑量／頻率",reason:"用途",drugAllergy:"藥物過敏",foodAllergy:"食物過敏",otherAllergy:"其他過敏／反應",immunity:"其他重要免疫資訊",vaccineName:"疫苗名稱",contact:"緊急聯絡人",contactPhone:"聯絡電話",languageNeed:"溝通語言／特殊溝通需求",important:"其他重要提醒",emergencyAlert:"建議只填寫必要資訊；不要在不安全或共用的裝置上保存過多個人敏感資料。",export:"匯出資料",clear:"清除本機資料",footer:"GreenCare 是學習／展示用途的靜態網頁範例，不是正式醫療紀錄系統，也不能取代醫療人員的專業判斷。"},
+en:{subtitle:"Multilingual Pocket Medical Record",save:"Save",print:"Print",heroTitle:"Your health, in one place.",heroText:"A calm, portable personal health interface with multilingual support for travel, medical visits, and communication.",lastSaved:"Last saved",navPersonal:"Personal",navHistory:"Medical History",navFamily:"Family History",navSurgery:"Surgery / Hospitalization",navMeds:"Medication",navAllergy:"Allergy & Immunity",navVaccine:"Vaccines",navEmergency:"Emergency",navNotes:"Notes",personalTitle:"Personal Information",personalDesc:"Identity and contact information",name:"Name",dob:"Date of birth",sex:"Sex",blood:"Blood type",nationality:"Nationality / Region",phone:"Phone",email:"Email",doctor:"Primary doctor / clinic",historyTitle:"Medical History",historyDesc:"Diagnoses and important health history",familyTitle:"Family History",familyDesc:"Important conditions among close relatives",surgeryTitle:"Surgery / Hospitalization",surgeryDesc:"Procedures and hospital stays",medsTitle:"Medication History",medsDesc:"Current or previous important medications",allergyTitle:"Allergy & Immunity",allergyDesc:"Drug, food, environmental allergies and reactions",vaccineTitle:"Vaccination Record",vaccineDesc:"Vaccine name, date and notes",emergencyTitle:"Emergency Information",emergencyDesc:"Key information for quick communication",notesTitle:"Notes",notesDesc:"Anything useful to review during care",add:"Add",condition:"Condition / diagnosis",date:"Date",details:"Details",relative:"Relative",procedure:"Procedure",hospital:"Hospital / clinic",medName:"Medication",dose:"Dose / frequency",reason:"Reason",drugAllergy:"Drug allergies",foodAllergy:"Food allergies",otherAllergy:"Other allergies / reactions",immunity:"Other important immunity information",vaccineName:"Vaccine",contact:"Emergency contact",contactPhone:"Contact phone",languageNeed:"Communication language / needs",important:"Other important reminders",emergencyAlert:"Only enter necessary information. Avoid storing excessive sensitive data on shared or unsafe devices.",export:"Export data",clear:"Clear local data",footer:"GreenCare is a learning/demo static webpage, not an official medical record system and not a substitute for professional medical advice."},
+ja:{subtitle:"多言語ポケット電子カルテ",save:"保存",print:"印刷",heroTitle:"健康情報を、ひとつに。",heroText:"旅行や受診時に使いやすい、落ち着いたデザインの多言語健康情報ページです。",lastSaved:"最終保存",navPersonal:"個人情報",navHistory:"病歴",navFamily:"家族歴",navSurgery:"手術・入院歴",navMeds:"服薬歴",navAllergy:"アレルギー・免疫",navVaccine:"予防接種",navEmergency:"緊急情報",navNotes:"メモ",personalTitle:"個人情報",personalDesc:"基本情報と連絡先",name:"氏名",dob:"生年月日",sex:"性別",blood:"血液型",nationality:"国籍・地域",phone:"電話番号",email:"メール",doctor:"主治医・医療機関",historyTitle:"病歴",historyDesc:"診断歴・重要な健康情報",familyTitle:"家族歴",familyDesc:"近親者の重要な病気",surgeryTitle:"手術・入院歴",surgeryDesc:"手術・入院・医療処置",medsTitle:"服薬歴",medsDesc:"現在・過去の重要な薬",allergyTitle:"アレルギー・免疫",allergyDesc:"薬・食物・環境など",vaccineTitle:"予防接種",vaccineDesc:"ワクチン名・日付・メモ",emergencyTitle:"緊急情報",emergencyDesc:"緊急時に必要な情報",notesTitle:"メモ",notesDesc:"受診時に確認したい情報",add:"追加",condition:"病気・診断名",date:"日付",details:"詳細",relative:"続柄",procedure:"手術・処置",hospital:"医療機関",medName:"薬名",dose:"用量・頻度",reason:"目的",drugAllergy:"薬のアレルギー",foodAllergy:"食物アレルギー",otherAllergy:"その他のアレルギー",immunity:"その他の免疫情報",vaccineName:"ワクチン名",contact:"緊急連絡先",contactPhone:"電話番号",languageNeed:"使用言語・配慮",important:"その他の注意",emergencyAlert:"必要な情報だけを入力し、共有端末には過度な個人情報を保存しないでください。",export:"データ出力",clear:"ローカルデータを削除",footer:"GreenCare は学習・展示用の静的ページであり、正式な医療記録システムではありません。"},
+ko:{subtitle:"다국어 휴대용 전자 건강기록",save:"저장",print:"인쇄",heroTitle:"건강 정보를 한곳에.",heroText:"여행이나 진료 시 빠르게 확인할 수 있는 차분한 다국어 건강정보 페이지입니다.",lastSaved:"마지막 저장",navPersonal:"개인 정보",navHistory:"질병력",navFamily:"가족력",navSurgery:"수술·입원력",navMeds:"복약력",navAllergy:"알레르기·면역",navVaccine:"예방접종",navEmergency:"응급 정보",navNotes:"메모",personalTitle:"개인 정보",personalDesc:"기본 정보와 연락처",name:"이름",dob:"생년월일",sex:"성별",blood:"혈액형",nationality:"국적 / 지역",phone:"전화번호",email:"이메일",doctor:"주치의 / 의료기관",historyTitle:"질병력",historyDesc:"진단 및 중요한 건강 이력",familyTitle:"가족력",familyDesc:"가까운 가족의 주요 질환",surgeryTitle:"수술·입원력",surgeryDesc:"수술 및 입원 기록",medsTitle:"복약력",medsDesc:"현재 또는 과거의 중요 약물",allergyTitle:"알레르기·면역",allergyDesc:"약물·음식·환경 알레르기",vaccineTitle:"예방접종 기록",vaccineDesc:"백신명·날짜·메모",emergencyTitle:"응급 정보",emergencyDesc:"빠른 의사소통을 위한 정보",notesTitle:"메모",notesDesc:"진료 시 확인할 내용",add:"추가",condition:"질환 / 진단명",date:"날짜",details:"상세 내용",relative:"가족 관계",procedure:"수술 / 처치",hospital:"병원 / 의료기관",medName:"약물명",dose:"용량 / 횟수",reason:"용도",drugAllergy:"약물 알레르기",foodAllergy:"음식 알레르기",otherAllergy:"기타 알레르기",immunity:"기타 면역 정보",vaccineName:"백신명",contact:"응급 연락처",contactPhone:"전화번호",languageNeed:"사용 언어 / 의사소통 필요",important:"기타 주의사항",emergencyAlert:"필요한 정보만 입력하고, 공용 기기에는 민감한 개인정보를 많이 저장하지 마세요.",export:"데이터 내보내기",clear:"로컬 데이터 삭제",footer:"GreenCare는 학습·시연용 정적 웹페이지이며 공식 의료기록 시스템이 아닙니다."},
+vi:{subtitle:"Hồ sơ sức khỏe cá nhân đa ngôn ngữ",save:"Lưu",print:"In",heroTitle:"Sức khỏe của bạn, ở một nơi.",heroText:"Trang thông tin sức khỏe đa ngôn ngữ, nhẹ nhàng và tiện mang theo khi đi du lịch hoặc khám bệnh.",lastSaved:"Lưu lần cuối",navPersonal:"Cá nhân",navHistory:"Tiền sử bệnh",navFamily:"Tiền sử gia đình",navSurgery:"Phẫu thuật / Nhập viện",navMeds:"Thuốc",navAllergy:"Dị ứng & Miễn dịch",navVaccine:"Tiêm chủng",navEmergency:"Khẩn cấp",navNotes:"Ghi chú",personalTitle:"Thông tin cá nhân",personalDesc:"Thông tin cơ bản và liên hệ",name:"Họ tên",dob:"Ngày sinh",sex:"Giới tính",blood:"Nhóm máu",nationality:"Quốc tịch / Khu vực",phone:"Điện thoại",email:"Email",doctor:"Bác sĩ / Cơ sở y tế",historyTitle:"Tiền sử bệnh",historyDesc:"Chẩn đoán và thông tin sức khỏe quan trọng",familyTitle:"Tiền sử gia đình",familyDesc:"Bệnh quan trọng của người thân",surgeryTitle:"Phẫu thuật / Nhập viện",surgeryDesc:"Các thủ thuật và lần nhập viện",medsTitle:"Tiền sử dùng thuốc",medsDesc:"Thuốc đang hoặc từng sử dụng",allergyTitle:"Dị ứng & Miễn dịch",allergyDesc:"Dị ứng thuốc, thức ăn và môi trường",vaccineTitle:"Lịch sử tiêm chủng",vaccineDesc:"Tên vắc-xin, ngày và ghi chú",emergencyTitle:"Thông tin khẩn cấp",emergencyDesc:"Thông tin cần thiết khi cần giao tiếp nhanh",notesTitle:"Ghi chú",notesDesc:"Thông tin hữu ích khi khám bệnh",add:"Thêm",condition:"Bệnh / chẩn đoán",date:"Ngày",details:"Chi tiết",relative:"Người thân",procedure:"Phẫu thuật / thủ thuật",hospital:"Bệnh viện / cơ sở y tế",medName:"Tên thuốc",dose:"Liều / tần suất",reason:"Mục đích",drugAllergy:"Dị ứng thuốc",foodAllergy:"Dị ứng thức ăn",otherAllergy:"Dị ứng / phản ứng khác",immunity:"Thông tin miễn dịch khác",vaccineName:"Vắc-xin",contact:"Người liên hệ khẩn cấp",contactPhone:"Số điện thoại",languageNeed:"Ngôn ngữ / nhu cầu giao tiếp",important:"Lưu ý khác",emergencyAlert:"Chỉ nhập thông tin cần thiết và tránh lưu quá nhiều dữ liệu nhạy cảm trên thiết bị dùng chung.",export:"Xuất dữ liệu",clear:"Xóa dữ liệu cục bộ",footer:"GreenCare là trang web tĩnh phục vụ học tập/trình diễn, không phải hệ thống hồ sơ y tế chính thức."},
+es:{subtitle:"Historial médico personal multilingüe",save:"Guardar",print:"Imprimir",heroTitle:"Tu salud, en un solo lugar.",heroText:"Una interfaz tranquila y portátil para consultar información de salud durante viajes o consultas médicas.",lastSaved:"Último guardado",navPersonal:"Personal",navHistory:"Antecedentes",navFamily:"Antecedentes familiares",navSurgery:"Cirugía / Hospitalización",navMeds:"Medicamentos",navAllergy:"Alergias e inmunidad",navVaccine:"Vacunas",navEmergency:"Emergencias",navNotes:"Notas",personalTitle:"Información personal",personalDesc:"Datos básicos y contacto",name:"Nombre",dob:"Fecha de nacimiento",sex:"Sexo",blood:"Grupo sanguíneo",nationality:"Nacionalidad / Región",phone:"Teléfono",email:"Email",doctor:"Médico / centro principal",historyTitle:"Antecedentes médicos",historyDesc:"Diagnósticos e información importante",familyTitle:"Antecedentes familiares",familyDesc:"Enfermedades importantes de familiares",surgeryTitle:"Cirugía / Hospitalización",surgeryDesc:"Procedimientos y hospitalizaciones",medsTitle:"Medicamentos",medsDesc:"Medicamentos actuales o anteriores",allergyTitle:"Alergias e inmunidad",allergyDesc:"Alergias a medicamentos, alimentos o entorno",vaccineTitle:"Vacunas",vaccineDesc:"Nombre, fecha y notas",emergencyTitle:"Información de emergencia",emergencyDesc:"Datos para comunicación rápida",notesTitle:"Notas",notesDesc:"Información útil durante la atención",add:"Añadir",condition:"Enfermedad / diagnóstico",date:"Fecha",details:"Detalles",relative:"Familiar",procedure:"Procedimiento",hospital:"Hospital / clínica",medName:"Medicamento",dose:"Dosis / frecuencia",reason:"Motivo",drugAllergy:"Alergias a medicamentos",foodAllergy:"Alergias alimentarias",otherAllergy:"Otras alergias / reacciones",immunity:"Otra información inmunitaria",vaccineName:"Vacuna",contact:"Contacto de emergencia",contactPhone:"Teléfono",languageNeed:"Idioma / necesidades de comunicación",important:"Otros avisos",emergencyAlert:"Introduce solo información necesaria y evita guardar demasiados datos sensibles en dispositivos compartidos.",export:"Exportar datos",clear:"Borrar datos locales",footer:"GreenCare es una página estática para aprendizaje/demostración y no sustituye un sistema médico oficial."},
+fr:{subtitle:"Dossier médical personnel multilingue",save:"Enregistrer",print:"Imprimer",heroTitle:"Votre santé, au même endroit.",heroText:"Une interface douce et portable pour consulter vos informations de santé en voyage ou lors d'une consultation.",lastSaved:"Dernière sauvegarde",navPersonal:"Personnel",navHistory:"Antécédents",navFamily:"Antécédents familiaux",navSurgery:"Chirurgie / Hospitalisation",navMeds:"Médicaments",navAllergy:"Allergies & immunité",navVaccine:"Vaccins",navEmergency:"Urgence",navNotes:"Notes",personalTitle:"Informations personnelles",personalDesc:"Informations de base et contact",name:"Nom",dob:"Date de naissance",sex:"Sexe",blood:"Groupe sanguin",nationality:"Nationalité / Région",phone:"Téléphone",email:"Email",doctor:"Médecin / établissement",historyTitle:"Antécédents médicaux",historyDesc:"Diagnostics et informations importantes",familyTitle:"Antécédents familiaux",familyDesc:"Maladies importantes chez les proches",surgeryTitle:"Chirurgie / Hospitalisation",surgeryDesc:"Interventions et hospitalisations",medsTitle:"Médicaments",medsDesc:"Médicaments actuels ou passés",allergyTitle:"Allergies & immunité",allergyDesc:"Allergies aux médicaments, aliments ou environnement",vaccineTitle:"Vaccinations",vaccineDesc:"Nom, date et notes",emergencyTitle:"Informations d'urgence",emergencyDesc:"Informations utiles pour communiquer rapidement",notesTitle:"Notes",notesDesc:"Informations utiles pendant les soins",add:"Ajouter",condition:"Maladie / diagnostic",date:"Date",details:"Détails",relative:"Proche",procedure:"Intervention",hospital:"Hôpital / clinique",medName:"Médicament",dose:"Dose / fréquence",reason:"Motif",drugAllergy:"Allergies médicamenteuses",foodAllergy:"Allergies alimentaires",otherAllergy:"Autres allergies / réactions",immunity:"Autres informations immunitaires",vaccineName:"Vaccin",contact:"Contact d'urgence",contactPhone:"Téléphone",languageNeed:"Langue / besoins de communication",important:"Autres rappels",emergencyAlert:"N'indiquez que les informations nécessaires et évitez de stocker trop de données sensibles sur un appareil partagé.",export:"Exporter les données",clear:"Effacer les données locales",footer:"GreenCare est une page statique destinée à l'apprentissage/démonstration et ne remplace pas un dossier médical officiel."},
+de:{subtitle:"Mehrsprachige persönliche Gesundheitsakte",save:"Speichern",print:"Drucken",heroTitle:"Ihre Gesundheit, an einem Ort.",heroText:"Eine ruhige, portable Oberfläche für Gesundheitsinformationen auf Reisen oder bei Arztbesuchen.",lastSaved:"Zuletzt gespeichert",navPersonal:"Persönlich",navHistory:"Krankengeschichte",navFamily:"Familiengeschichte",navSurgery:"Operation / Krankenhaus",navMeds:"Medikamente",navAllergy:"Allergien & Immunität",navVaccine:"Impfungen",navEmergency:"Notfall",navNotes:"Notizen",personalTitle:"Persönliche Daten",personalDesc:"Grunddaten und Kontakt",name:"Name",dob:"Geburtsdatum",sex:"Geschlecht",blood:"Blutgruppe",nationality:"Nationalität / Region",phone:"Telefon",email:"E-Mail",doctor:"Arzt / Klinik",historyTitle:"Krankengeschichte",historyDesc:"Diagnosen und wichtige Gesundheitsinformationen",familyTitle:"Familiengeschichte",familyDesc:"Wichtige Erkrankungen naher Angehöriger",surgeryTitle:"Operation / Krankenhausaufenthalt",surgeryDesc:"Eingriffe und Krankenhausaufenthalte",medsTitle:"Medikamente",medsDesc:"Aktuelle oder frühere wichtige Medikamente",allergyTitle:"Allergien & Immunität",allergyDesc:"Allergien gegen Medikamente, Lebensmittel oder Umwelt",vaccineTitle:"Impfungen",vaccineDesc:"Impfstoff, Datum und Notizen",emergencyTitle:"Notfallinformationen",emergencyDesc:"Wichtige Informationen für eine schnelle Kommunikation",notesTitle:"Notizen",notesDesc:"Nützliche Informationen für die Behandlung",add:"Hinzufügen",condition:"Erkrankung / Diagnose",date:"Datum",details:"Details",relative:"Angehöriger",procedure:"Eingriff",hospital:"Krankenhaus / Klinik",medName:"Medikament",dose:"Dosis / Häufigkeit",reason:"Grund",drugAllergy:"Medikamentenallergien",foodAllergy:"Lebensmittelallergien",otherAllergy:"Andere Allergien / Reaktionen",immunity:"Weitere Immuninformationen",vaccineName:"Impfstoff",contact:"Notfallkontakt",contactPhone:"Telefon",languageNeed:"Sprache / Kommunikationsbedarf",important:"Weitere Hinweise",emergencyAlert:"Geben Sie nur notwendige Informationen ein und speichern Sie sensible Daten nicht unnötig auf gemeinsam genutzten Geräten.",export:"Daten exportieren",clear:"Lokale Daten löschen",footer:"GreenCare ist eine statische Lern-/Demo-Seite und kein offizielles medizinisches Dokumentationssystem."}
+};
+
+let records=JSON.parse(localStorage.getItem("greencare_records")||'{"history":[],"family":[],"surgery":[],"meds":[],"vaccine":[]}');
+
+function applyLang(lang){
+  const t=T[lang]||T.zh;
+  document.documentElement.lang=lang==="zh"?"zh-Hant":lang;
+  document.querySelectorAll("[data-i18n]").forEach(el=>{
+    const key=el.dataset.i18n;if(t[key])el.textContent=t[key];
+  });
+}
+function saveData(){
+  const data={};
+  document.querySelectorAll("[data-key]").forEach(el=>data[el.dataset.key]=el.value);
+  data.records=records;
+  localStorage.setItem("greencare_data",JSON.stringify(data));
+  localStorage.setItem("greencare_records",JSON.stringify(records));
+  document.getElementById("lastSaved").textContent=new Date().toLocaleString();
+  alert(T[document.getElementById("language").value].save+" ✓");
+}
+function loadData(){
+  try{
+    const data=JSON.parse(localStorage.getItem("greencare_data")||"{}");
+    document.querySelectorAll("[data-key]").forEach(el=>{if(data[el.dataset.key]!=null)el.value=data[el.dataset.key]});
+    records=data.records||records;
+    const saved=localStorage.getItem("greencare_saved_at");
+    if(saved)document.getElementById("lastSaved").textContent=saved;
+  }catch(e){}
+  renderAll();
+}
+function addRecord(type){
+  const map={
+    history:["hName","hDate","hNote"],family:["fRelative","fName","fNote"],
+    surgery:["sName","sDate","sHospital","sNote"],meds:["mName","mDose","mReason","mNote"],
+    vaccine:["vName","vDate","vNote"]
+  };
+  const vals=map[type].map(id=>document.getElementById(id).value.trim());
+  if(!vals[0]){alert("Please enter the main item.");return}
+  records[type].push({id:Date.now(),v:vals});
+  map[type].forEach(id=>document.getElementById(id).value="");
+  localStorage.setItem("greencare_records",JSON.stringify(records));
+  renderAll();
+}
+function removeRecord(type,id){
+  records[type]=records[type].filter(x=>x.id!==id);
+  localStorage.setItem("greencare_records",JSON.stringify(records));renderAll();
+}
+function render(type){
+  const box=document.getElementById(type+"List"); if(!box)return;
+  const items=records[type]||[];
+  box.innerHTML=items.map(x=>{
+    const v=x.v;
+    let title=v[0], sub=v.slice(1).filter(Boolean).join(" · ");
+    return `<div class="item"><div><b>${escapeHtml(title)}</b><small>${escapeHtml(sub||"—")}</small></div><button class="remove" onclick="removeRecord('${type}',${x.id})">×</button></div>`;
+  }).join("");
+}
+function renderAll(){["history","family","surgery","meds","vaccine"].forEach(render)}
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
+
+document.querySelectorAll(".nav button").forEach(btn=>btn.addEventListener("click",()=>{
+  document.querySelectorAll(".nav button").forEach(b=>b.classList.remove("active"));
+  btn.classList.add("active");
+  document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"));
+  document.getElementById(btn.dataset.target).classList.add("active");
+}));
+document.getElementById("language").addEventListener("change",e=>applyLang(e.target.value));
+document.getElementById("saveBtn").addEventListener("click",saveData);
+document.getElementById("saveBtn2").addEventListener("click",saveData);
+document.getElementById("printBtn").addEventListener("click",()=>window.print());
+document.getElementById("exportBtn").addEventListener("click",()=>{
+  const data={fields:{},records};
+  document.querySelectorAll("[data-key]").forEach(el=>data.fields[el.dataset.key]=el.value);
+  const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"});
+  const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="greencare-medical-record.json";a.click();
+  URL.revokeObjectURL(a.href);
+});
+document.getElementById("clearBtn").addEventListener("click",()=>{
+  if(confirm("Clear all locally saved data?")){
+    localStorage.removeItem("greencare_data");localStorage.removeItem("greencare_records");
+    location.reload();
+  }
+});
+const originalSave=saveData;
+saveData=function(){
+  originalSave();
+  const now=new Date().toLocaleString();
+  localStorage.setItem("greencare_saved_at",now);
+  document.getElementById("lastSaved").textContent=now;
+}
+loadData();applyLang("zh");
+</script>
+</body>
+</html>
